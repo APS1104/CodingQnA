@@ -1,0 +1,39 @@
+Question link: https://practice.geeksforgeeks.org/problems/3-divisors3942/1
+
+Solution: (In C++)
+
+//Concept is that the square of a prime number has exactly 3 divisors
+vector<int> threeDivisors(vector<long long> query, int q)
+{
+    //calculating the maximum value of query under which we need our required numbers
+    long long n=0;
+    for(int i=0;i<q;i++)
+    {
+        n=max(n,query[i]);
+    }
+    //calculating primes using Sieve approach
+    vector<bool> isPrime(n+1,true);
+    for(int i=2;i*i<=n;i++)
+    {
+        if(isPrime[i])
+        {
+            for(int j=i*i;j<=n;j=j+i)
+                isPrime[j]=false;
+        }
+    }
+    //counting the required numbers who has 3 divisiors
+    vector<int> ans;
+    for(int i=0;i<q;i++)
+    {
+        int count=0;
+        for(int num=2;num*num<=query[i];num++)
+        {
+            if(isPrime[num])
+            {
+                count++;
+            }
+        }
+        ans.push_back(count);
+    }
+    return ans;
+}
